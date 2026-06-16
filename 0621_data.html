@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<!-- saved from url=(0145)file:///C:/Users/SAMSUNG/OneDrive/Desktop/Baseball%20Data/%ED%8C%8C%EC%9D%B4%EC%96%B4%EB%A6%AC%EC%B8%A0_%EB%8C%80%EC%89%AC%EB%B3%B4%EB%93%9C.html -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>파이어리츠 분석결과</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+body{
+  background:#0f1117;
+  color:#f0f0f5;
+  font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard','Segoe UI',sans-serif;
+  min-height:100vh;
+}
+
+/* ── HEADER ── */
+.header{
+  padding:32px 20px 18px;
+}
+.header-title{
+  font-size:18px;
+  font-weight:700;
+  color:#f0f0f5;
+  letter-spacing:-0.4px;
+}
+.header-sub{
+  font-size:13px;
+  color:#4b505c;
+  margin-top:5px;
+  letter-spacing:-0.2px;
+}
+.header-sub b{color:#9098aa;font-weight:600;}
+
+/* ── SECTION ── */
+.section{padding:0 16px 80px;}
+
+/* ── PLAYER CARD ── */
+.player-card{
+  background:#1a1d26;
+  border-radius:18px;
+  margin-bottom:10px;
+  overflow:hidden;
+}
+
+/* ── CARD TOP ── */
+.card-top{
+  display:flex;
+  align-items:center;
+  padding:16px 18px 14px;
+  gap:0;
+}
+.player-identity{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1;
+  min-width:0;
+}
+.player-no{
+  font-size:13px;
+  font-weight:700;
+  color:#9098aa;
+  letter-spacing:0.2px;
+  white-space:nowrap;
+}
+.no-num{
+  font-size:20px;
+  font-weight:800;
+  color:#f0f0f5;
+  letter-spacing:-1px;
+  margin-left:2px;
+}
+.ident-div{
+  width:1px;
+  height:22px;
+  background:#2a2d38;
+  flex-shrink:0;
+  margin:0 2px;
+}
+.player-name{
+  font-size:17px;
+  font-weight:700;
+  color:#f0f0f5;
+  letter-spacing:-0.3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* CTA 버튼 */
+.cta-btn{
+  flex-shrink:0;
+  padding:7px 14px;
+  border-radius:20px;
+  background:#f0f0f5;
+  color:#0f1117;
+  font-size:12px;
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+  letter-spacing:-0.2px;
+  white-space:nowrap;
+  transition:background .15s, color .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.player-card.active .cta-btn{
+  background:#2a2d38;
+  color:#9098aa;
+}
+
+/* ── STAT ROW (항상 노출) ── */
+.stat-row{
+  display:flex;
+  padding:0 18px 16px;
+  gap:0;
+}
+.stat-cell{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.cell-val{
+  font-size:16px;
+  font-weight:700;
+  color:#f0f0f5;
+  line-height:1;
+  letter-spacing:-0.4px;
+  font-variant-numeric:tabular-nums;
+}
+.cell-val.ops{ color:#6c8cff; }
+.cell-label{
+  font-size:10px;
+  color:#4b505c;
+  letter-spacing:0.2px;
+}
+
+/* ── DETAIL PANEL ── */
+.player-detail{
+  display:none;
+  border-top:1px solid #1e2130;
+}
+.player-card.active .player-detail{display:block;}
+
+/* ── TABS ── */
+.tabs{
+  display:flex;
+  padding:0 18px;
+  border-bottom:1px solid #1e2130;
+  gap:0;
+}
+.tab-btn{
+  padding:13px 0;
+  font-size:12px;
+  font-weight:600;
+  color:#4b505c;
+  background:none;
+  border:none;
+  cursor:pointer;
+  margin-right:22px;
+  position:relative;
+  letter-spacing:-0.1px;
+  -webkit-tap-highlight-color:transparent;
+  transition:color .15s;
+}
+.tab-btn::after{
+  content:'';
+  position:absolute;
+  bottom:-1px;left:0;right:0;
+  height:2px;
+  background:#6c8cff;
+  border-radius:2px;
+  opacity:0;
+  transition:opacity .15s;
+}
+.tab-btn.active{color:#f0f0f5;}
+.tab-btn.active::after{opacity:1;}
+
+/* ── TAB PANELS ── */
+.tab-panel{display:none;padding:18px 18px 20px;}
+.tab-panel.active{display:block;}
+
+/* ── SPRAY ── */
+.section-label{
+  font-size:11px;
+  font-weight:600;
+  color:#4b505c;
+  letter-spacing:0.3px;
+  margin-bottom:12px;
+  text-transform:uppercase;
+}
+.spray-container{
+  width:100%;
+  max-width:260px;
+  margin:0 auto 16px;
+}
+.spray-container svg{width:100%;height:auto;display:block;}
+
+.dir-bars{display:flex;flex-direction:column;gap:8px;}
+.dir-row{display:flex;align-items:center;gap:10px;}
+.dir-label{font-size:10px;color:#4b505c;width:38px;text-align:right;flex-shrink:0;}
+.dir-bar-bg{flex:1;height:4px;background:#1e2130;border-radius:10px;overflow:hidden;}
+.dir-bar-fill{height:100%;border-radius:10px;}
+.dir-count{font-size:10px;color:#4b505c;width:16px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;}
+
+/* ── BB TYPE ── */
+.bb-wrap{margin-top:22px;}
+.bb-bars{display:flex;gap:3px;height:60px;align-items:flex-end;margin-bottom:6px;}
+.bb-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+.bb-pct{font-size:12px;font-weight:700;color:#f0f0f5;margin-bottom:4px;}
+.bb-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;}
+.bb-labels{display:flex;border-top:1px solid #1e2130;padding-top:7px;}
+.bb-lbl{flex:1;text-align:center;font-size:9px;color:#4b505c;letter-spacing:.3px;}
+
+/* ── FULL STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.stat-box{background:#12141c;border-radius:10px;padding:12px 10px;text-align:center;}
+.stat-box-val{font-size:16px;font-weight:700;color:#f0f0f5;line-height:1;letter-spacing:-0.3px;font-variant-numeric:tabular-nums;}
+.stat-box-lbl{font-size:9px;color:#4b505c;margin-top:4px;text-transform:uppercase;letter-spacing:.4px;}
+
+/* ── AT-BAT ── */
+.atbat-wrap{margin-top:18px;}
+.atbat-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.atbat-chip{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500;letter-spacing:-0.1px;}
+.ab-hit{background:rgba(63,185,80,.12);color:#3fb950;}
+.ab-hr{background:rgba(248,81,73,.12);color:#f85149;}
+.ab-double{background:rgba(108,140,255,.12);color:#6c8cff;}
+.ab-out{background:#1e2130;color:#4b505c;}
+.ab-walk{background:rgba(212,160,23,.1);color:#d4a017;}
+.ab-so{background:rgba(80,85,100,.1);color:#555a66;}
+
+/* ── PREDICT ── */
+.tendency-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.tendency-tag{font-size:11px;padding:4px 11px;border-radius:20px;background:#1e2130;color:#9098aa;font-weight:500;letter-spacing:-0.1px;}
+.pred-list{display:flex;flex-direction:column;}
+.pred-item{font-size:13px;color:#6b7280;line-height:1.65;padding:10px 0;border-bottom:1px solid #1e2130;letter-spacing:-.1px;}
+.pred-item:last-child{border-bottom:none;}
+.pred-dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:#6c8cff;vertical-align:middle;margin-right:8px;margin-bottom:1px;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">파이어리츠 분석결과</div>
+  <div class="header-sub">최근 5경기 &nbsp;<b>2승 3패</b></div>
+</div>
+
+<div class="section" id="player-list"><div class="player-card" id="card-0">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">100</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">연제광</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(0)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.667</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.737</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">1.267</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#6c8cff">2.004</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn" onclick="switchTab(0,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn active" onclick="switchTab(0,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(0,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel" id="tab-0-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g100" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g100)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="74" cy="61" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="69" cy="60" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="67" cy="58" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="75" cy="61" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="60" cy="47" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="64" cy="62" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="64" cy="57" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="127" cy="40" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="147" cy="34" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="208" cy="45" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="207" cy="62" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="98" cy="148" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="178" cy="149" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:54%;background:#ffd700"></div></div><div class="dir-count">7</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:15%;background:#6c8cff"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:15%;background:#4fc97f"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:8%;background:#e05c2e"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:8%;background:#e05c2e"></div></div><div class="dir-count">1</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">15%</div><div class="bb-bar" style="height:10.129870129870131px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">77%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">8%</div><div class="bb-bar" style="height:5.402597402597403px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel active" id="tab-0-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">15</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">10</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">9</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">8</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-walk">사구</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hr">홈런</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-out">뜬공</span><span class="atbat-chip ab-walk">사구</span><span class="atbat-chip ab-walk">사구</span><span class="atbat-chip ab-hr">홈런</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hr">홈런</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-0-predict">
+        <div class="tendency-row"><span class="tendency-tag">라인드라이브형</span><span class="tendency-tag">당겨치기</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.</div><div class="pred-item"><span class="pred-dot"></span>좌측 방향 집중 타구. 상대 우완 투수에게 당겨치기 성향. 3루수 전진 수비 고려.</div><div class="pred-item"><span class="pred-dot"></span>볼넷+사구 4회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">15%</div><div class="bb-bar" style="height:10.129870129870131px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">77%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">8%</div><div class="bb-bar" style="height:5.402597402597403px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-1">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">3</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">윤영준</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(1)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.333</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.444</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.333</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#9098aa">.777</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(1,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(1,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(1,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-1-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g3" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g3)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="74" cy="61" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="69" cy="60" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="67" cy="58" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="225" cy="61" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="210" cy="47" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="214" cy="62" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="214" cy="57" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="87" cy="146" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="107" cy="140" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="93" cy="138" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="92" cy="155" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="138" cy="152" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="178" cy="149" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="184" cy="138" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:21%;background:#ffd700"></div></div><div class="dir-count">3</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#6c8cff"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:29%;background:#4fc97f"></div></div><div class="dir-count">4</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:29%;background:#e05c2e"></div></div><div class="dir-count">4</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:7%;background:#e05c2e"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:14%;background:#e05c2e"></div></div><div class="dir-count">2</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">50%</div><div class="bb-bar" style="height:52px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">36%</div><div class="bb-bar" style="height:37.44px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">14%</div><div class="bb-bar" style="height:14.560000000000002px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-1-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">15</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">5</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">6</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-out">뜬공</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-out">뜬공</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-out">땅볼</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-1-predict">
+        <div class="tendency-row"><span class="tendency-tag">고 땅볼</span><span class="tendency-tag">밀어치기</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>땅볼 타구 비율이 높아 1-2루수 방향 수비 시프트 효과적. 직구 낮은 코스에 약점 노출 가능성.</div><div class="pred-item"><span class="pred-dot"></span>우측/우중간 밀어치기 성향. 1루수·우익수 방향 수비 강화 필요.</div><div class="pred-item"><span class="pred-dot"></span>볼넷+사구 3회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">50%</div><div class="bb-bar" style="height:52px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">36%</div><div class="bb-bar" style="height:37.44px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">14%</div><div class="bb-bar" style="height:14.560000000000002px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-2">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">45</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">김종인</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(2)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.538</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.667</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">1.000</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#6c8cff">1.667</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(2,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(2,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(2,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-2-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g45" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g45)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="74" cy="61" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="69" cy="60" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="67" cy="58" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="150" cy="48" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="135" cy="34" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="214" cy="62" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="214" cy="57" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="202" cy="53" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="107" cy="140" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="93" cy="138" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="172" cy="155" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:27%;background:#ffd700"></div></div><div class="dir-count">3</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:18%;background:#6c8cff"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:27%;background:#4fc97f"></div></div><div class="dir-count">3</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:18%;background:#e05c2e"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:9%;background:#e05c2e"></div></div><div class="dir-count">1</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">18%</div><div class="bb-bar" style="height:14.625px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">64%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">18%</div><div class="bb-bar" style="height:14.625px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-2-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">13</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">7</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">7</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">5</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">5</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">4</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-out">뜬공</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-double">2루타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-double">2루타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hr">홈런</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-double">2루타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">뜬공</span><span class="atbat-chip ab-hit">안타</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-2-predict">
+        <div class="tendency-row"><span class="tendency-tag">라인드라이브형</span><span class="tendency-tag">균형 타격</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.</div><div class="pred-item"><span class="pred-dot"></span>센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.</div><div class="pred-item"><span class="pred-dot"></span>볼넷+사구 5회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">18%</div><div class="bb-bar" style="height:14.625px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">64%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">18%</div><div class="bb-bar" style="height:14.625px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-3">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">17</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">노승운</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(3)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.583</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.762</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.667</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#7bb8ff">1.429</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(3,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(3,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(3,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-3-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g17" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g17)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="74" cy="61" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="69" cy="60" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="142" cy="45" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="150" cy="48" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="135" cy="34" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="139" cy="49" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="139" cy="44" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="175" cy="42" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="107" cy="140" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:22%;background:#ffd700"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:56%;background:#6c8cff"></div></div><div class="dir-count">5</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:11%;background:#4fc97f"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:11%;background:#e05c2e"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">11%</div><div class="bb-bar" style="height:7.333333333333333px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">78%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">11%</div><div class="bb-bar" style="height:7.333333333333333px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-3-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">12</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">7</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">7</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">7</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-out">실책</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-double">2루타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">뜬공</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">사구</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">사구</span><span class="atbat-chip ab-walk">볼넷</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-3-predict">
+        <div class="tendency-row"><span class="tendency-tag">라인드라이브형</span><span class="tendency-tag">균형 타격</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.</div><div class="pred-item"><span class="pred-dot"></span>센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.</div><div class="pred-item"><span class="pred-dot"></span>볼넷+사구 9회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">11%</div><div class="bb-bar" style="height:7.333333333333333px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">78%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">11%</div><div class="bb-bar" style="height:7.333333333333333px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-4">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">21</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">신우철</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(4)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.333</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.579</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.333</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#9098aa">.912</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(4,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(4,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(4,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-4-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g21" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g21)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="74" cy="61" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="69" cy="60" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="142" cy="45" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="225" cy="61" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="210" cy="47" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="214" cy="62" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="99" cy="150" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="87" cy="146" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:25%;background:#ffd700"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:13%;background:#6c8cff"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:38%;background:#4fc97f"></div></div><div class="dir-count">3</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:25%;background:#e05c2e"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">25%</div><div class="bb-bar" style="height:20.96774193548387px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">62%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">12%</div><div class="bb-bar" style="height:10.064516129032258px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-4-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">12</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">4</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">4</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">6</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">뜬공</span><span class="atbat-chip ab-walk">사구</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-so">삼진</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-4-predict">
+        <div class="tendency-row"><span class="tendency-tag">라인드라이브형</span><span class="tendency-tag">균형 타격</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.</div><div class="pred-item"><span class="pred-dot"></span>센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.</div><div class="pred-item"><span class="pred-dot"></span>볼넷+사구 7회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">25%</div><div class="bb-bar" style="height:20.96774193548387px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">62%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">12%</div><div class="bb-bar" style="height:10.064516129032258px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-5">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">28</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">박원석</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(5)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.455</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.667</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.455</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#7bb8ff">1.122</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(5,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(5,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(5,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-5-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g28" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g28)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="74" cy="61" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="144" cy="47" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="142" cy="45" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="190" cy="154" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:25%;background:#ffd700"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:50%;background:#6c8cff"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#4fc97f"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:25%;background:#e05c2e"></div></div><div class="dir-count">1</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">25%</div><div class="bb-bar" style="height:17.333333333333332px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">75%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-5-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">11</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">5</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">7</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">4</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-so">삼진</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-5-predict">
+        <div class="tendency-row"><span class="tendency-tag">라인드라이브형</span><span class="tendency-tag">균형 타격</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.</div><div class="pred-item"><span class="pred-dot"></span>센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.</div><div class="pred-item"><span class="pred-dot"></span>볼넷+사구 7회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">25%</div><div class="bb-bar" style="height:17.333333333333332px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">75%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-6">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">15</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">조민호</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(6)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.778</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.800</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.778</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#6c8cff">1.578</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn" onclick="switchTab(6,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn active" onclick="switchTab(6,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(6,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel" id="tab-6-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g15" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g15)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="74" cy="61" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="69" cy="60" r="5" fill="#ffd700" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="142" cy="45" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="150" cy="48" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="210" cy="47" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="214" cy="62" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="99" cy="150" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:29%;background:#ffd700"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:29%;background:#6c8cff"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:29%;background:#4fc97f"></div></div><div class="dir-count">2</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:14%;background:#e05c2e"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">14%</div><div class="bb-bar" style="height:8.465116279069768px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">86%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel active" id="tab-6-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">9</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">7</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">4</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-out">땅볼</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-6-predict">
+        <div class="tendency-row"><span class="tendency-tag">라인드라이브형</span><span class="tendency-tag">균형 타격</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.</div><div class="pred-item"><span class="pred-dot"></span>센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">14%</div><div class="bb-bar" style="height:8.465116279069768px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">86%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-7">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">10</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">조민성</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(7)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.500</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.636</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.625</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#7bb8ff">1.261</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(7,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(7,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(7,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-7-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g10" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g10)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="149" cy="48" r="5" fill="#6c8cff" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="219" cy="60" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle><circle cx="102" cy="151" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#ffd700"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:33%;background:#6c8cff"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:33%;background:#4fc97f"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:33%;background:#e05c2e"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">100%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-7-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">8</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">4</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">5</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">3</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-double">2루타</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-so">삼진</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-7-predict">
+        <div class="tendency-row"><span class="tendency-tag">라인드라이브형</span><span class="tendency-tag">균형 타격</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.</div><div class="pred-item"><span class="pred-dot"></span>센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.</div><div class="pred-item"><span class="pred-dot"></span>볼넷+사구 3회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">100%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-8">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">18</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">김한구</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(8)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.167</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.583</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.167</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#9098aa">.750</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(8,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(8,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(8,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-8-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g18" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g18)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="224" cy="61" r="5" fill="#4fc97f" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#ffd700"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#6c8cff"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:100%;background:#4fc97f"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">100%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-8-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">6</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">1</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">4</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">2</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-walk">사구</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-hit">안타</span><span class="atbat-chip ab-walk">사구</span><span class="atbat-chip ab-walk">볼넷</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-walk">볼넷</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-8-predict">
+        <div class="tendency-row"><span class="tendency-tag">라인드라이브형</span><span class="tendency-tag">밀어치기</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.</div><div class="pred-item"><span class="pred-dot"></span>우측/우중간 밀어치기 성향. 1루수·우익수 방향 수비 강화 필요.</div><div class="pred-item"><span class="pred-dot"></span>볼넷+사구 6회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">100%</div><div class="bb-bar" style="height:52px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div><div class="player-card" id="card-9">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">1</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">원철연</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(9)">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">.000</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.000</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">.000</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:#555a66">.000</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(9,&#39;spray&#39;,this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(9,&#39;stats&#39;,this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(9,&#39;predict&#39;,this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-9-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container"><svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialgradient id="g1" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"></stop><stop offset="100%" stop-color="#0e130e"></stop></radialgradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g1)"></path>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"></path>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"></line>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"></line>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"></polygon>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"></rect>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"></rect>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"></rect>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"></circle>
+    <circle cx="109" cy="154" r="5" fill="#e05c2e" opacity="0.9" stroke="#0f1117" stroke-width="1.5"></circle>
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg></div>
+        <div class="dir-bars"><div class="dir-row"><div class="dir-label">좌익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#ffd700"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">중견</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#6c8cff"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">우익</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#4fc97f"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야좌</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:100%;background:#e05c2e"></div></div><div class="dir-count">1</div></div><div class="dir-row"><div class="dir-label">내야중</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div><div class="dir-row"><div class="dir-label">내야우</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:0%;background:#e05c2e"></div></div><div class="dir-count">0</div></div></div>
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">100%</div><div class="bb-bar" style="height:52px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-9-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">5</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">0</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">4</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips"><span class="atbat-chip ab-out">땅볼</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-so">삼진</span><span class="atbat-chip ab-so">삼진</span></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-9-predict">
+        <div class="tendency-row"><span class="tendency-tag">고 땅볼</span></div>
+        <div class="pred-list"><div class="pred-item"><span class="pred-dot"></span>땅볼 타구 비율이 높아 1-2루수 방향 수비 시프트 효과적. 직구 낮은 코스에 약점 노출 가능성.</div></div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          <div class="bb-bars"><div class="bb-col"><div class="bb-pct">100%</div><div class="bb-bar" style="height:52px;background:#e05c2e"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#6c8cff"></div></div><div class="bb-col"><div class="bb-pct">0%</div><div class="bb-bar" style="height:3px;background:#4fc97f"></div></div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+<script>
+const DATA = {"players":[{"name":"연제광","number":"100","position":"1루수","games":5,"ab":15,"hits":10,"rbi":9,"runs":8,"sb":1,"bb":1,"hbp":3,"hr":3,"doubles":0,"singles":7,"ba":"0.667","slg":"1.267","obp":"0.737","ops":"2.004","ops_val":2.004,"gb":2,"fb":1,"ld":10,"total_bt":13,"gb_pct":15,"fb_pct":8,"ld_pct":77,"spray":{"left":7,"center":2,"right":2,"right_center":0,"il":1,"ic":0,"ir":1},"atbats":[{"type":"hbp","raw":"사구"},{"type":"single","direction":"left","raw":"좌안"},{"type":"hr","direction":"left","raw":"좌월홈"},{"type":"single","direction":"right","raw":"우안"},{"type":"groundout","direction":"infield_right","raw":"2땅"},{"type":"groundout","direction":"infield_left","raw":"유땅"},{"type":"flyout","direction":"right","raw":"우플"},{"type":"hbp","raw":"사구"},{"type":"hbp","raw":"사구"},{"type":"hr","direction":"left","raw":"좌월홈"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"center","raw":"중안"},{"type":"single","direction":"left","raw":"좌안"},{"type":"hr","direction":"left","raw":"좌월홈"},{"type":"strikeout","raw":"삼진"},{"type":"single","direction":"left","raw":"좌안"},{"type":"strikeout","raw":"삼진"},{"type":"single","direction":"right","raw":"우2"},{"type":"single","direction":"center","raw":"중안"},{"type":"single","direction":"left","raw":"좌안"}],"tendencies":["라인드라이브형","당겨치기"],"predictions":["안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.","좌측 방향 집중 타구. 상대 우완 투수에게 당겨치기 성향. 3루수 전진 수비 고려.","볼넷+사구 4회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입."],"strikeouts":2},{"name":"윤영준","number":"3","position":"3루수","games":5,"ab":15,"hits":5,"rbi":6,"runs":3,"sb":2,"bb":3,"hbp":0,"hr":0,"doubles":0,"singles":5,"ba":"0.333","slg":"0.333","obp":"0.444","ops":"0.777","ops_val":0.777,"gb":7,"fb":2,"ld":5,"total_bt":14,"gb_pct":50,"fb_pct":14,"ld_pct":36,"spray":{"left":3,"center":0,"right":4,"right_center":0,"il":4,"ic":1,"ir":2},"atbats":[{"type":"groundout","direction":"infield_left","raw":"3땅"},{"type":"groundout","direction":"infield_left","raw":"유땅"},{"type":"groundout","direction":"infield_right","raw":"1땅"},{"type":"walk","raw":"볼넷"},{"type":"flyout","direction":"right","raw":"우플"},{"type":"single","direction":"left","raw":"좌안"},{"type":"groundout","direction":"infield_left","raw":"3땅"},{"type":"single","direction":"left","raw":"좌안"},{"type":"strikeout","raw":"삼진"},{"type":"single","direction":"left","raw":"좌안"},{"type":"single","direction":"right","raw":"우안"},{"type":"single","direction":"right","raw":"우안"},{"type":"groundout","direction":"infield_left","raw":"3땅"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"flyout","direction":"right","raw":"우플"},{"type":"groundout","direction":"infield_right","raw":"2땅"},{"type":"groundout","direction":"infield_center","raw":"투땅"}],"tendencies":["고 땅볼","밀어치기"],"predictions":["땅볼 타구 비율이 높아 1-2루수 방향 수비 시프트 효과적. 직구 낮은 코스에 약점 노출 가능성.","우측/우중간 밀어치기 성향. 1루수·우익수 방향 수비 강화 필요.","볼넷+사구 3회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입."],"strikeouts":1},{"name":"김종인","number":"45","position":"포수","games":5,"ab":13,"hits":7,"rbi":7,"runs":5,"sb":1,"bb":5,"hbp":0,"hr":1,"doubles":3,"singles":3,"ba":"0.538","slg":"1.000","obp":"0.667","ops":"1.667","ops_val":1.667,"gb":2,"fb":2,"ld":7,"total_bt":11,"gb_pct":18,"fb_pct":18,"ld_pct":64,"spray":{"left":3,"center":2,"right":3,"right_center":0,"il":2,"ic":0,"ir":1},"atbats":[{"type":"flyout","direction":"center","raw":"중플"},{"type":"groundout","direction":"infield_left","raw":"유땅"},{"type":"double","direction":"right","raw":"우월2"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"strikeout","raw":"삼진"},{"type":"strikeout","raw":"삼진"},{"type":"groundout","direction":"infield_left","raw":"유땅"},{"type":"strikeout","raw":"삼진"},{"type":"double","direction":"right","raw":"우월2"},{"type":"walk","raw":"볼넷"},{"type":"hr","direction":"left","raw":"좌월홈"},{"type":"strikeout","raw":"삼진"},{"type":"double","direction":"right","raw":"우월2"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"center","raw":"중안"},{"type":"single","direction":"left","raw":"좌안"},{"type":"flyout","direction":"infield_right","raw":"1플"},{"type":"single","direction":"left","raw":"좌안"}],"tendencies":["라인드라이브형","균형 타격"],"predictions":["안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.","센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.","볼넷+사구 5회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입."],"strikeouts":4},{"name":"노승운","number":"17","position":"중견수","games":5,"ab":12,"hits":7,"rbi":3,"runs":7,"sb":2,"bb":7,"hbp":2,"hr":0,"doubles":1,"singles":6,"ba":"0.583","slg":"0.667","obp":"0.762","ops":"1.429","ops_val":1.429,"gb":1,"fb":1,"ld":7,"total_bt":9,"gb_pct":11,"fb_pct":11,"ld_pct":78,"spray":{"left":2,"center":5,"right":0,"right_center":1,"il":1,"ic":0,"ir":0},"atbats":[{"type":"error","raw":"3실"},{"type":"strikeout","raw":"낫아웃"},{"type":"double","direction":"right_center","raw":"우중2"},{"type":"single","direction":"center","raw":"중안"},{"type":"flyout","direction":"center","raw":"중플"},{"type":"single","direction":"center","raw":"중안"},{"type":"walk","raw":"볼넷"},{"type":"groundout","direction":"infield_left","raw":"유땅"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"left","raw":"좌안"},{"type":"hbp","raw":"사구"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"center","raw":"중안"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"left","raw":"좌안"},{"type":"strikeout","raw":"삼진"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"center","raw":"중안"},{"type":"walk","raw":"볼넷"},{"type":"hbp","raw":"사구"},{"type":"walk","raw":"볼넷"}],"tendencies":["라인드라이브형","균형 타격"],"predictions":["안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.","센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.","볼넷+사구 9회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입."],"strikeouts":2},{"name":"신우철","number":"21","position":"유격수","games":5,"ab":12,"hits":4,"rbi":3,"runs":4,"sb":2,"bb":6,"hbp":1,"hr":0,"doubles":0,"singles":4,"ba":"0.333","slg":"0.333","obp":"0.579","ops":"0.912","ops_val":0.912,"gb":2,"fb":1,"ld":5,"total_bt":8,"gb_pct":25,"fb_pct":12,"ld_pct":62,"spray":{"left":2,"center":1,"right":3,"right_center":0,"il":2,"ic":0,"ir":0},"atbats":[{"type":"single","direction":"right","raw":"우안"},{"type":"flyout","direction":"left","raw":"좌플"},{"type":"hbp","raw":"사구"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"center","raw":"중안"},{"type":"single","direction":"right","raw":"우안"},{"type":"groundout","direction":"infield_left","raw":"유땅"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"left","raw":"좌안"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"right","raw":"우안"},{"type":"groundout","direction":"infield_left","raw":"유땅"},{"type":"walk","raw":"볼넷"},{"type":"strikeout","raw":"삼진"},{"type":"strikeout","raw":"삼진"},{"type":"strikeout","raw":"삼진"}],"tendencies":["라인드라이브형","균형 타격"],"predictions":["안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.","센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.","볼넷+사구 7회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입."],"strikeouts":3},{"name":"박원석","number":"28","position":"좌익수","games":5,"ab":11,"hits":5,"rbi":1,"runs":3,"sb":3,"bb":7,"hbp":0,"hr":0,"doubles":0,"singles":5,"ba":"0.455","slg":"0.455","obp":"0.667","ops":"1.122","ops_val":1.122,"gb":1,"fb":0,"ld":3,"total_bt":4,"gb_pct":25,"fb_pct":0,"ld_pct":75,"spray":{"left":1,"center":2,"right":0,"right_center":0,"il":0,"ic":0,"ir":1},"atbats":[{"type":"strikeout","raw":"삼진"},{"type":"groundout","direction":"infield_right","raw":"2땅"},{"type":"walk","raw":"볼넷"},{"type":"strikeout","raw":"삼진"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"center","raw":"중안"},{"type":"walk","raw":"볼넷"},{"type":"strikeout","raw":"삼진"},{"type":"single","direction":"center","raw":"중안"},{"type":"single","direction":"left","raw":"좌안"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"strikeout","raw":"삼진"}],"tendencies":["라인드라이브형","균형 타격"],"predictions":["안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.","센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.","볼넷+사구 7회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입."],"strikeouts":4},{"name":"조민호","number":"15","position":"투수","games":3,"ab":9,"hits":7,"rbi":3,"runs":4,"sb":0,"bb":1,"hbp":0,"hr":0,"doubles":0,"singles":7,"ba":"0.778","slg":"0.778","obp":"0.800","ops":"1.578","ops_val":1.578,"gb":1,"fb":0,"ld":6,"total_bt":7,"gb_pct":14,"fb_pct":0,"ld_pct":86,"spray":{"left":2,"center":2,"right":2,"right_center":0,"il":1,"ic":0,"ir":0},"atbats":[{"type":"single","direction":"left","raw":"좌안"},{"type":"single","direction":"right","raw":"우안"},{"type":"single","direction":"center","raw":"중안"},{"type":"single","direction":"center","raw":"중안"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"left","raw":"좌안"},{"type":"single","direction":"right","raw":"우안"},{"type":"groundout","direction":"infield_left","raw":"유땅"}],"tendencies":["라인드라이브형","균형 타격"],"predictions":["안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.","센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리."],"strikeouts":0},{"name":"조민성","number":"10","position":"우익수","games":4,"ab":8,"hits":4,"rbi":2,"runs":5,"sb":2,"bb":3,"hbp":0,"hr":0,"doubles":1,"singles":3,"ba":"0.500","slg":"0.625","obp":"0.636","ops":"1.261","ops_val":1.261,"gb":0,"fb":0,"ld":3,"total_bt":3,"gb_pct":0,"fb_pct":0,"ld_pct":100,"spray":{"left":0,"center":1,"right":1,"right_center":0,"il":1,"ic":0,"ir":0},"atbats":[{"type":"single","direction":"right","raw":"우안"},{"type":"double","direction":"center","raw":"2안"},{"type":"single","direction":"infield_left","raw":"유안"},{"type":"walk","raw":"볼넷"},{"type":"strikeout","raw":"삼진"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"strikeout","raw":"삼진"}],"tendencies":["라인드라이브형","균형 타격"],"predictions":["안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.","센터 방향 중심의 균형 잡힌 타격. 수비 시프트보다 정석 수비 포지셔닝이 유리.","볼넷+사구 3회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입."],"strikeouts":2},{"name":"김한구","number":"18","position":"우익수","games":5,"ab":6,"hits":1,"rbi":1,"runs":2,"sb":1,"bb":4,"hbp":2,"hr":0,"doubles":0,"singles":1,"ba":"0.167","slg":"0.167","obp":"0.583","ops":"0.750","ops_val":0.75,"gb":0,"fb":0,"ld":1,"total_bt":1,"gb_pct":0,"fb_pct":0,"ld_pct":100,"spray":{"left":0,"center":0,"right":1,"right_center":0,"il":0,"ic":0,"ir":0},"atbats":[{"type":"hbp","raw":"사구"},{"type":"strikeout","raw":"삼진"},{"type":"walk","raw":"볼넷"},{"type":"walk","raw":"볼넷"},{"type":"single","direction":"right","raw":"우안"},{"type":"hbp","raw":"사구"},{"type":"walk","raw":"볼넷"},{"type":"strikeout","raw":"삼진"},{"type":"walk","raw":"볼넷"}],"tendencies":["라인드라이브형","밀어치기"],"predictions":["안타성 타구 비율 높은 컨택 히터. 밀착 수비보다 정위치 수비가 효과적.","우측/우중간 밀어치기 성향. 1루수·우익수 방향 수비 강화 필요.","볼넷+사구 6회로 선구안 우수. 초구 공략보다 카운트를 유리하게 가져가는 타입."],"strikeouts":2},{"name":"원철연","number":"1","position":"2루수","games":4,"ab":5,"hits":0,"rbi":0,"runs":0,"sb":0,"bb":0,"hbp":0,"hr":0,"doubles":0,"singles":0,"ba":"0.000","slg":"0.000","obp":"0.000","ops":"0.000","ops_val":0.0,"gb":1,"fb":0,"ld":0,"total_bt":1,"gb_pct":100,"fb_pct":0,"ld_pct":0,"spray":{"left":0,"center":0,"right":0,"right_center":0,"il":1,"ic":0,"ir":0},"atbats":[{"type":"groundout","direction":"infield_left","raw":"유땅"},{"type":"strikeout","raw":"삼진"},{"type":"strikeout","raw":"삼진"},{"type":"strikeout","raw":"삼진"},{"type":"strikeout","raw":"삼진"}],"tendencies":["고 땅볼"],"predictions":["땅볼 타구 비율이 높아 1-2루수 방향 수비 시프트 효과적. 직구 낮은 코스에 약점 노출 가능성."],"strikeouts":4}]};
+
+function fmt(s){return s.replace(/^0/,'');}
+function opsColor(v){if(v>=1.5)return'#6c8cff';if(v>=1.0)return'#7bb8ff';if(v>=0.7)return'#9098aa';return'#555a66';}
+
+const typeLabelMap={hr:'홈런',double:'2루타',single:'안타',walk:'볼넷',hbp:'사구',strikeout:'삼진',groundout:'땅볼',flyout:'뜬공',error:'실책'};
+function chipClass(t){return{hr:'ab-hr',double:'ab-double',single:'ab-hit',walk:'ab-walk',hbp:'ab-walk',strikeout:'ab-so'}[t]||'ab-out';}
+
+function renderDots(s){
+  const z={left:{x:65,y:55,c:'#ffd700'},center:{x:140,y:42,c:'#6c8cff'},right:{x:215,y:55,c:'#4fc97f'},right_center:{x:188,y:44,c:'#4fc97f'},il:{x:100,y:148,c:'#e05c2e'},ic:{x:140,y:152,c:'#e05c2e'},ir:{x:180,y:148,c:'#e05c2e'}};
+  const keys=[['left',s.left],['center',s.center],['right',s.right],['right_center',s.right_center],['il',s.il],['ic',s.ic],['ir',s.ir]];
+  let seed=42,dots=[];
+  function rand(a,b){seed=(seed*1664525+1013904223)&0xffffffff;return a+(Math.abs(seed)%(b-a+1));}
+  keys.forEach(([k,cnt])=>{const zz=z[k];for(let i=0;i<cnt;i++){dots.push(`<circle cx="${zz.x+rand(-16,16)}" cy="${zz.y+rand(-10,10)}" r="5" fill="${zz.c}" opacity="0.9" stroke="#0f1117" stroke-width="1.5"/>`);}});
+  return dots.join('');
+}
+function buildSpray(p){
+  return `<svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="g${p.number}" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#172017"/><stop offset="100%" stop-color="#0e130e"/></radialGradient></defs>
+    <path d="M140 210 L8 8 Q140 -18 272 8 Z" fill="url(#g${p.number})"/>
+    <path d="M140 210 L88 138 L140 80 L192 138 Z" fill="#1e1810" opacity="0.8"/>
+    <line x1="140" y1="210" x2="8" y2="8" stroke="#2a2d38" stroke-width="1"/>
+    <line x1="140" y1="210" x2="272" y2="8" stroke="#2a2d38" stroke-width="1"/>
+    <line x1="140" y1="210" x2="140" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"/>
+    <line x1="140" y1="210" x2="62" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"/>
+    <line x1="140" y1="210" x2="218" y2="2" stroke="#252830" stroke-width="0.5" stroke-dasharray="3,4"/>
+    <polygon points="140,208 134,202 137,195 143,195 146,202" fill="#e0e0e0"/>
+    <rect x="85" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 90 138)"/>
+    <rect x="135" y="76" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 140 81)"/>
+    <rect x="185" y="133" width="10" height="10" rx="1.5" fill="#e0e0e0" transform="rotate(45 190 138)"/>
+    <circle cx="140" cy="150" r="4.5" fill="#2a2219"/>
+    ${renderDots(p.spray)}
+    <text x="50" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">좌익</text>
+    <text x="140" y="26" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">중견</text>
+    <text x="230" y="36" fill="#3b3f4a" font-size="9" text-anchor="middle" font-family="system-ui">우익</text>
+  </svg>`;
+}
+function dirBar(label,count,total,color){
+  const pct=total>0?Math.round(count/total*100):0;
+  return `<div class="dir-row"><div class="dir-label">${label}</div><div class="dir-bar-bg"><div class="dir-bar-fill" style="width:${pct}%;background:${color}"></div></div><div class="dir-count">${count}</div></div>`;
+}
+
+function buildCard(p,idx){
+  const oc=opsColor(p.ops_val);
+  const sprayHTML=buildSpray(p);
+  const totalDir=p.spray.left+p.spray.center+p.spray.right+p.spray.right_center+p.spray.il+p.spray.ic+p.spray.ir;
+  const dirs=`<div class="dir-bars">${dirBar('좌익',p.spray.left,totalDir,'#ffd700')}${dirBar('중견',p.spray.center,totalDir,'#6c8cff')}${dirBar('우익',p.spray.right+p.spray.right_center,totalDir,'#4fc97f')}${dirBar('내야좌',p.spray.il,totalDir,'#e05c2e')}${dirBar('내야중',p.spray.ic,totalDir,'#e05c2e')}${dirBar('내야우',p.spray.ir,totalDir,'#e05c2e')}</div>`;
+  const mx=Math.max(p.gb_pct,p.fb_pct,p.ld_pct,1);
+  function bbBar(v,c){return `<div class="bb-bar" style="height:${Math.max(v/mx*52,3)}px;background:${c}"></div>`;}
+  const bbSec=p.total_bt>0?`<div class="bb-bars"><div class="bb-col"><div class="bb-pct">${p.gb_pct}%</div>${bbBar(p.gb_pct,'#e05c2e')}</div><div class="bb-col"><div class="bb-pct">${p.ld_pct}%</div>${bbBar(p.ld_pct,'#6c8cff')}</div><div class="bb-col"><div class="bb-pct">${p.fb_pct}%</div>${bbBar(p.fb_pct,'#4fc97f')}</div></div><div class="bb-labels"><div class="bb-lbl">땅볼</div><div class="bb-lbl">안타성</div><div class="bb-lbl">뜬공</div></div>`:`<div style="text-align:center;padding:14px;font-size:12px;color:#4b505c">데이터 없음</div>`;
+  const chips=p.atbats.filter(a=>a.type).map(a=>`<span class="atbat-chip ${chipClass(a.type)}">${typeLabelMap[a.type]||a.raw}</span>`).join('');
+  const tTags=p.tendencies.map(t=>`<span class="tendency-tag">${t}</span>`).join('');
+  const preds=p.predictions.map(pr=>`<div class="pred-item"><span class="pred-dot"></span>${pr}</div>`).join('');
+
+  return `<div class="player-card" id="card-${idx}">
+    <div class="card-top">
+      <div class="player-identity">
+        <span class="player-no">NO.<span class="no-num">${p.number}</span></span>
+        <div class="ident-div"></div>
+        <span class="player-name">${p.name}</span>
+      </div>
+      <button class="cta-btn" onclick="toggle(${idx})">자세히 보기</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="cell-val">${fmt(p.ba)}</div>
+        <div class="cell-label">타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">${fmt(p.obp)}</div>
+        <div class="cell-label">출루율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val">${fmt(p.slg)}</div>
+        <div class="cell-label">장타율</div>
+      </div>
+      <div class="stat-cell">
+        <div class="cell-val ops" style="color:${oc}">${fmt(p.ops)}</div>
+        <div class="cell-label">OPS</div>
+      </div>
+    </div>
+
+    <div class="player-detail">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(${idx},'spray',this)">타구분포</button>
+        <button class="tab-btn" onclick="switchTab(${idx},'stats',this)">상세스탯</button>
+        <button class="tab-btn" onclick="switchTab(${idx},'predict',this)">분석예측</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-${idx}-spray">
+        <div class="section-label">타구 분포도</div>
+        <div class="spray-container">${sprayHTML}</div>
+        ${dirs}
+        <div class="bb-wrap">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          ${bbSec}
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-${idx}-stats">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-box-val">${p.ab}</div><div class="stat-box-lbl">타수</div></div>
+          <div class="stat-box"><div class="stat-box-val">${p.hits}</div><div class="stat-box-lbl">안타</div></div>
+          <div class="stat-box"><div class="stat-box-val">${p.hr}</div><div class="stat-box-lbl">홈런</div></div>
+          <div class="stat-box"><div class="stat-box-val">${p.doubles}</div><div class="stat-box-lbl">2루타</div></div>
+          <div class="stat-box"><div class="stat-box-val">${p.rbi}</div><div class="stat-box-lbl">타점</div></div>
+          <div class="stat-box"><div class="stat-box-val">${p.runs}</div><div class="stat-box-lbl">득점</div></div>
+          <div class="stat-box"><div class="stat-box-val">${p.sb}</div><div class="stat-box-lbl">도루</div></div>
+          <div class="stat-box"><div class="stat-box-val">${p.bb}</div><div class="stat-box-lbl">볼넷</div></div>
+          <div class="stat-box"><div class="stat-box-val">${p.strikeouts}</div><div class="stat-box-lbl">삼진</div></div>
+        </div>
+        <div class="atbat-wrap">
+          <div class="section-label" style="margin-bottom:10px">타석 기록</div>
+          <div class="atbat-chips">${chips||'<span style="color:#4b505c;font-size:12px">기록 없음</span>'}</div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-${idx}-predict">
+        <div class="tendency-row">${tTags}</div>
+        <div class="pred-list">${preds}</div>
+        <div class="bb-wrap" style="margin-top:20px">
+          <div class="section-label" style="margin-bottom:12px">타구 유형</div>
+          ${bbSec}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggle(idx){
+  const card=document.getElementById(`card-${idx}`);
+  const btn=card.querySelector('.cta-btn');
+  const isActive=card.classList.toggle('active');
+  btn.textContent=isActive?'접기':'자세히 보기';
+}
+function switchTab(idx,tab,btn){
+  const card=document.getElementById(`card-${idx}`);
+  card.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  card.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`tab-${idx}-${tab}`).classList.add('active');
+  btn.classList.add('active');
+}
+
+const list=document.getElementById('player-list');
+DATA.players.forEach((p,i)=>{list.innerHTML+=buildCard(p,i);});
+</script>
+
+</body></html>
