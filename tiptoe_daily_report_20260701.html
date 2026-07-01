@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<!-- saved from url=(0083)file:///C:/Users/LG/Desktop/Daily%20Report/Tiptoe/tiptoe_daily_report_20260701.html -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiptoe 데일리 리포트 — 2026.07.01</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --primary:#0078FF; --plt:#A3D1FF; --navy:#050A5A;
+  --dark1:#262F3C; --dark2:#4A5667; --muted:#CBD1DC;
+  --bg:#F0F4F9; --card:#FFFFFF; --border:#E3E8EF;
+  --text1:#131A26; --text2:#4A5667; --text3:#9AA3B0;
+  --green:#00B87A; --green-lt:#E6F9F3; --red:#E8364A; --red-lt:#FEF0F2;
+  --r:14px; --sh:0 1px 4px rgba(0,0,0,0.07);
+}
+body { font-family:-apple-system,'Apple SD Gothic Neo','Pretendard',BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text1); }
+.topbar { background:var(--navy); height:58px; padding:0 40px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:30; }
+.topbar-logo { font-size:17px; font-weight:800; color:#fff; letter-spacing:1.5px; }
+.topbar-right { display:flex; align-items:center; gap:14px; }
+.topbar-date { font-size:13px; color:var(--muted); }
+.event-pill { background:var(--primary); color:#fff; font-size:12px; font-weight:700; padding:5px 14px; border-radius:20px; }
+.wrap { max-width:1400px; margin:0 auto; padding:32px 40px 72px; }
+.sec-hdr { display:flex; align-items:center; gap:9px; margin:36px 0 16px; }
+.sec-hdr:first-child { margin-top:0; }
+.sec-dot { width:4px; height:18px; background:var(--primary); border-radius:4px; }
+.sec-lbl { font-size:15px; font-weight:700; color:var(--text1); letter-spacing:-.2px; }
+.card { background:var(--card); border-radius:var(--r); box-shadow:var(--sh); padding:24px; }
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.hero { background:linear-gradient(130deg,var(--navy) 0%,#0B1870 55%,#0d22a0 100%); border-radius:var(--r); padding:28px 36px; box-shadow:0 4px 20px rgba(5,10,90,0.2); display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.hero-lbl { font-size:13px; color:var(--plt); font-weight:600; margin-bottom:8px; letter-spacing:.3px; }
+.hero-amt { font-size:48px; font-weight:900; color:#fff; letter-spacing:-2px; line-height:1; margin-bottom:18px; }
+.hero-amt .yen { font-size:28px; opacity:.65; margin-right:3px; font-weight:700; }
+.hero-compare { display:flex; gap:9px; flex-wrap:wrap; }
+.hcb { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:5px 14px; font-size:12px; font-weight:600; color:#fff; display:flex; align-items:center; gap:5px; }
+.hcb .lbl { opacity:.5; font-size:11px; }
+.hcb .up { color:#FF8A80; }
+.hcb .dn { color:#80DEEA; }
+.cum-tag { display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:9px; margin-bottom:10px; }
+.tag-m { background:var(--plt); color:var(--navy); }
+.tag-e { background:rgba(255,150,0,.13); color:#B85C00; }
+.cum-lbl { font-size:12px; color:var(--text2); margin-bottom:6px; }
+.cum-val { font-size:28px; font-weight:800; color:var(--text1); letter-spacing:-.8px; }
+.cum-val .u { font-size:16px; font-weight:600; color:var(--text3); }
+.cum-sub { font-size:11px; color:var(--text3); margin-top:4px; }
+.tgt-bar-wrap { height:4px; background:#E3E8EF; border-radius:2px; margin:10px 0 5px; }
+.tgt-bar-fill { height:100%; border-radius:2px; }
+.tgt-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; }
+.tgt-lbl { font-size:11px; color:var(--text2); }
+.tgt-amt { font-weight:600; color:var(--text1); }
+.tgt-pct { font-size:14px; font-weight:800; }
+.cmp-row { display:flex; gap:5px; margin-top:12px; flex-wrap:wrap; }
+.cb { display:inline-flex; align-items:center; gap:3px; padding:3px 8px; border-radius:11px; font-size:11px; font-weight:700; }
+.cb .l { font-weight:500; opacity:.65; }
+.cb.up { background:var(--red-lt); color:var(--red); }
+.cb.dn { background:#EBF4FF; color:var(--primary); }
+.cb.nt { background:#F2F4F6; color:var(--text3); }
+.chart-card { background:var(--card); border-radius:var(--r); box-shadow:var(--sh); padding:22px 24px; }
+.chart-hdr { font-size:13px; font-weight:700; color:var(--text1); margin-bottom:16px; }
+.top3-tbl { width:100%; border-collapse:collapse; }
+.top3-tbl th { font-size:11px; color:var(--text3); font-weight:600; text-align:left; padding:0 0 12px; border-bottom:1px solid var(--border); letter-spacing:.3px; }
+.top3-tbl th.r, .top3-tbl td.r { text-align:right; }
+.top3-tbl td { padding:14px 0; border-bottom:1px solid var(--border); vertical-align:middle; }
+.top3-tbl tr:last-child td { border-bottom:none; padding-bottom:0; }
+.rn { width:28px; height:28px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; }
+.r1 { background:linear-gradient(135deg,#FFD700,#FFA800); color:#fff; }
+.r2 { background:linear-gradient(135deg,#C8C8C8,#A0A0A0); color:#fff; }
+.r3 { background:linear-gradient(135deg,#D4895A,#A0522D); color:#fff; }
+.r4 { background:#E8EFF6; color:#4A5667; }
+.r5 { background:#E8EFF6; color:#4A5667; }
+.p-name { font-size:13px; font-weight:600; color:var(--text1); }
+.p-id { font-size:11px; color:var(--text3); margin-top:2px; }
+.p-rev { font-size:14px; font-weight:700; color:var(--text1); }
+.p-qty { font-size:11px; color:var(--text3); }
+.sp { display:inline-block; background:#EBF4FF; color:var(--primary); font-size:11px; font-weight:700; padding:3px 9px; border-radius:10px; }
+.kpi-card { background:var(--card); border-radius:var(--r); box-shadow:var(--sh); padding:20px 22px; }
+.kpi-lbl { font-size:12px; color:var(--text2); font-weight:600; margin-bottom:8px; }
+.kpi-val { font-size:26px; font-weight:800; color:var(--text1); letter-spacing:-.5px; line-height:1.1; }
+.pv-bar-bg { height:10px; background:var(--border); border-radius:10px; overflow:hidden; margin:14px 0 16px; }
+.pv-bar-fill { height:100%; background:linear-gradient(90deg,var(--primary),var(--plt)); border-radius:10px; }
+.pv-row { display:flex; justify-content:space-between; }
+.pv-lbl { font-size:12px; color:var(--text2); margin-bottom:4px; }
+.pv-v { font-size:18px; font-weight:800; color:var(--text1); }
+.pv-p { font-size:12px; color:var(--text3); margin-top:2px; }
+.insight-stack { display:flex; flex-direction:column; gap:14px; }
+.insight-card { background:var(--card); border-radius:var(--r); box-shadow:var(--sh); padding:24px 28px; border-left:4px solid transparent; position:relative; }
+.insight-card.pos { border-left-color:var(--green); }
+.insight-card.risk { border-left-color:var(--red); }
+.insight-card.act { border-left-color:var(--primary); }
+.itag { display:inline-block; font-size:10px; font-weight:800; padding:3px 10px; border-radius:8px; margin-bottom:12px; letter-spacing:.5px; }
+.itag.pos { background:var(--green-lt); color:var(--green); }
+.itag.risk { background:var(--red-lt); color:var(--red); }
+.itag.act { background:#EBF4FF; color:var(--primary); }
+.i-bullets { display:flex; flex-direction:column; gap:10px; }
+.i-bullet { display:flex; flex-direction:column; gap:4px; }
+.i-line { display:flex; align-items:flex-start; gap:6px; }
+.i-line.sub { padding-left:20px; }
+.i-line.sub::before { content:'→'; color:var(--primary); font-size:11px; flex-shrink:0; margin-top:3px; font-weight:600; }
+.i-bullet-main { flex:1; font-size:13px; font-weight:600; color:var(--text1); line-height:1.65; }
+.i-bullet-sub { flex:1; font-size:12px; color:var(--text2); line-height:1.7; }
+.i-bullet-subs { display:flex; flex-direction:column; gap:3px; }
+.edit-btn { position:absolute; top:20px; right:20px; background:var(--bg); border:1px solid var(--border); color:var(--text3); font-size:11px; font-weight:600; padding:4px 11px; border-radius:8px; cursor:pointer; transition:all .15s; }
+.edit-btn:hover { background:var(--primary); color:#fff; border-color:var(--primary); }
+.edit-btn.active { background:var(--green); color:#fff; border-color:var(--green); }
+[contenteditable="true"] { outline:none; background:rgba(0,120,255,0.04); border-radius:6px; padding:2px 6px; margin:-2px -6px; min-width:60px; }
+[contenteditable="true"]:focus { background:rgba(0,120,255,0.08); box-shadow:0 0 0 2px rgba(0,120,255,0.2); }
+.del-btn { display:none; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:var(--red-lt); color:var(--red); border:none; cursor:pointer; font-size:12px; font-weight:700; flex-shrink:0; margin-top:2px; transition:all .15s; }
+.del-btn:hover { background:var(--red); color:#fff; }
+.editing .del-btn { display:flex; }
+.add-btn { display:none; align-items:center; gap:6px; background:none; border:1.5px dashed var(--border); color:var(--text3); font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px; cursor:pointer; transition:all .15s; width:fit-content; }
+.add-btn:hover { border-color:var(--primary); color:var(--primary); background:#EBF4FF; }
+.add-btn .plus { font-size:15px; font-weight:700; line-height:1; }
+.editing .add-btn { display:flex; }
+.del-card-btn { display:none; margin-top:16px; background:none; border:1.5px dashed var(--red); color:var(--red); font-size:12px; font-weight:600; padding:6px 14px; border-radius:8px; cursor:pointer; transition:all .15s; width:fit-content; }
+.del-card-btn:hover { background:var(--red); color:#fff; }
+.editing .del-card-btn { display:block; }
+.add-main-btn { margin-top:10px; }
+.add-desc-btn { margin-top:4px; margin-left:20px; }
+.cust-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+.cust-kpi-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px; }
+.shop-card { background:var(--card); border-radius:var(--r); box-shadow:var(--sh); padding:28px 48px; display:flex; justify-content:space-between; align-items:center; }
+.shop-item { text-align:center; padding:0 36px; }
+.shop-lbl { font-size:11px; color:var(--text3); margin-bottom:6px; }
+.shop-val { font-size:20px; font-weight:800; color:var(--text1); letter-spacing:-.3px; }
+.shop-sub { font-size:11px; color:var(--text3); margin-top:3px; }
+.shop-divider { width:1px; height:40px; background:var(--border); }
+.footer { text-align:center; color:var(--text3); font-size:11px; padding-top:24px; border-top:1px solid var(--border); margin-top:44px; }
+
+/* ── 모바일 반응형 ── */
+@media (max-width: 768px) {
+  .topbar { padding:0 16px; height:52px; }
+  .topbar-logo { font-size:15px; }
+  .topbar-date { display:none; }
+  .event-pill { font-size:11px; padding:4px 10px; }
+  .wrap { padding:16px 14px 56px; }
+  .sec-hdr { margin:24px 0 12px; }
+  .g2, .g4, .cust-grid { grid-template-columns:1fr; }
+  .hero { padding:20px; }
+  .hero-amt { font-size:34px; letter-spacing:-1px; margin-bottom:14px; }
+  .hero-amt .yen { font-size:20px; }
+  .hero-compare { gap:6px; }
+  .hcb { padding:4px 10px; font-size:11px; }
+  .cum-val { font-size:22px; }
+  .kpi-val { font-size:22px; }
+  .cmp-row { gap:4px; }
+  .cb { font-size:10px; padding:2px 6px; }
+  .chart-card { padding:16px; overflow:hidden; }
+  .chart-wrap-mobile { height:260px !important; overflow:hidden; }
+  .top3-tbl th, .top3-tbl td { padding:10px 0; }
+  .p-name { font-size:12px; }
+  .p-rev { font-size:13px; }
+  .pv-v { font-size:15px; }
+  .shop-card { display:grid; grid-template-columns:1fr 1fr; gap:0; padding:0; }
+  .shop-divider { display:none; }
+  .shop-item { padding:20px 16px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); }
+  .shop-item:nth-child(even) { border-right:none; }
+  .shop-item:last-child { border-bottom:none; }
+  .shop-item:nth-child(2) ~ .shop-item:last-child { border-bottom:none; border-right:none; }
+  .shop-val { font-size:17px; }
+  .insight-card { padding:18px 16px; }
+  .i-bullet-main { font-size:12px; }
+  .i-bullet-sub { font-size:11px; }
+  .edit-btn { top:14px; right:14px; }
+}
+@media (max-width: 480px) {
+  .hero-amt { font-size:28px; }
+  .cum-val { font-size:20px; }
+  .kpi-val { font-size:20px; }
+  .shop-card { grid-template-columns:1fr; }
+  .shop-item { border-right:none; border-bottom:1px solid var(--border); }
+  .shop-item:last-child { border-bottom:none; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">TIPTOE</div>
+  <div class="topbar-right">
+    <span class="topbar-date">2026년 7월 1일 (수)</span>
+    <span class="event-pill">메가포 7월 메가포 · 7/1~7/9</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="sec-hdr"><div class="sec-dot"></div><div class="sec-lbl">매출 현황</div></div>
+
+  <div class="hero">
+    <div>
+      <div class="hero-lbl">당일 매출</div>
+      <div class="hero-amt"><span class="yen">¥</span>246,019</div>
+      <div class="hero-compare">
+        <div class="hcb"><span class="lbl">DoD</span><span class="up">↑1383.8%</span></div>
+        <div class="hcb"><span class="lbl">QoQ</span><span class="dn">↓45.4%</span></div>
+        <div class="hcb"><span class="lbl">YoY</span><span class="dn">↓19.1%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:14px;">
+    <div class="card">
+      <div class="cum-tag tag-m">7월 누적</div>
+      <div class="cum-lbl">월간 누적 매출</div>
+      <div class="cum-val"><span class="u">¥</span>246,019</div>
+      <div class="tgt-bar-wrap"><div class="tgt-bar-fill" style="width:4.5%;background:var(--primary);"></div></div><div class="tgt-row"><span class="tgt-lbl">목표 <span class="tgt-amt">¥5,500,000</span></span><span class="tgt-pct" style="color:var(--primary);">4.5%</span></div>
+      <div class="cum-sub">2026.07.01 기준</div>
+    </div>
+    
+    <div class="card">
+      <div class="cum-tag tag-e">메가포 누적</div>
+      <div class="cum-lbl">7월 메가포 행사 기간 누적 (7/1 ~ 7/1)</div>
+      <div class="cum-val"><span class="u">¥</span>246,019</div>
+      <div class="tgt-bar-wrap"><div class="tgt-bar-fill" style="width:6.4%;background:var(--primary);"></div></div><div class="tgt-row"><span class="tgt-lbl">행사 목표 <span class="tgt-amt">¥3,850,000</span></span><span class="tgt-pct" style="color:var(--primary);">6.4%</span></div>
+      <div class="cmp-row">
+        <div class="cb nt"><span class="l">DoD</span>N/A</div>
+        <div class="cb nt"><span class="l">QoQ</span>N/A</div>
+        <div class="cb nt"><span class="l">YoY</span>N/A</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="chart-card">
+      <div class="chart-hdr">일주일 매출 추이</div>
+      <div class="chart-wrap-mobile" style="position:relative;height:320px;overflow:hidden;"><canvas id="salesChart" width="567" height="300" style="width: 605px; height: 320px;"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="chart-hdr">메인 기여 상품</div>
+      <table class="top3-tbl">
+        <thead><tr><th style="width:34px;"></th><th>상품명</th><th class="r">매출</th><th class="r">수량</th><th class="r">수량비중</th></tr></thead>
+        <tbody><tr>
+            <td><span class="rn r1">1</span></td>
+            <td><div class="p-name">팁토우 위시 터치 아이 팔레트</div><div class="p-id">#1197969389</div></td>
+            <td class="r"><div class="p-rev">¥88,450</div></td>
+            <td class="r"><div class="p-qty">33개</div></td>
+            <td class="r"><span class="sp">30.3%</span></td>
+          </tr><tr>
+            <td><span class="rn r2">2</span></td>
+            <td><div class="p-name">젤리스틱 </div><div class="p-id">#1091357688</div></td>
+            <td class="r"><div class="p-rev">¥48,750</div></td>
+            <td class="r"><div class="p-qty">21개</div></td>
+            <td class="r"><span class="sp">19.3%</span></td>
+          </tr><tr>
+            <td><span class="rn r3">3</span></td>
+            <td><div class="p-name">네일 폴리쉬</div><div class="p-id">#1091357322</div></td>
+            <td class="r"><div class="p-rev">¥19,404</div></td>
+            <td class="r"><div class="p-qty">16개</div></td>
+            <td class="r"><span class="sp">14.7%</span></td>
+          </tr><tr>
+            <td><span class="rn r4">4</span></td>
+            <td><div class="p-name">네일폴리쉬　3종세트</div><div class="p-id">#1151878532</div></td>
+            <td class="r"><div class="p-rev">¥39,996</div></td>
+            <td class="r"><div class="p-qty">11개</div></td>
+            <td class="r"><span class="sp">10.1%</span></td>
+          </tr><tr>
+            <td><span class="rn r5">5</span></td>
+            <td><div class="p-name">팁토우 글로윗 소르베 틴트</div><div class="p-id">#1170604154</div></td>
+            <td class="r"><div class="p-rev">¥18,180</div></td>
+            <td class="r"><div class="p-qty">11개</div></td>
+            <td class="r"><span class="sp">10.1%</span></td>
+          </tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec-hdr"><div class="sec-dot"></div><div class="sec-lbl">유입 · 전환</div></div>
+
+  <div class="g4" style="margin-bottom:14px;">
+    <div class="kpi-card">
+      <div class="kpi-lbl">PV (총페이지뷰)</div>
+      <div class="kpi-val">2,910</div>
+      <div class="cmp-row" style="margin-top:10px;">
+        <div class="cb up"><span class="l">DoD</span>↑63.1%</div><div class="cb dn"><span class="l">QoQ</span>↓29.9%</div><div class="cb up"><span class="l">YoY</span>↑3.4%</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">UV (유입자수)</div>
+      <div class="kpi-val">2,040</div>
+      <div class="cmp-row" style="margin-top:10px;">
+        <div class="cb up"><span class="l">DoD</span>↑64.9%</div><div class="cb dn"><span class="l">QoQ</span>↓27.3%</div><div class="cb up"><span class="l">YoY</span>↑4.0%</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">카트 CVR</div>
+      <div class="kpi-val">14.9%</div>
+      <div class="cmp-row" style="margin-top:10px;">
+        <div class="cb up"><span class="l">DoD</span>↑5.3%p</div><div class="cb dn"><span class="l">QoQ</span>↓1.2%p</div><div class="cb dn"><span class="l">YoY</span>↓0.8%p</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">구매 CVR</div>
+      <div class="kpi-val">4.7%</div>
+      <div class="cmp-row" style="margin-top:10px;">
+        <div class="cb up"><span class="l">DoD</span>↑4.2%p</div><div class="cb dn"><span class="l">QoQ</span>↓1.1%p</div><div class="cb dn"><span class="l">YoY</span>↓0.2%p</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px;">
+    <div class="chart-hdr" style="margin-bottom:0;">PV 유입 경로 분석</div>
+    <div class="pv-bar-bg"><div class="pv-bar-fill" style="width:90.3%;"></div></div>
+    <div class="pv-row">
+      <div><div class="pv-lbl">내부 PV</div><div class="pv-v">2,627</div><div class="pv-p">90.3%</div></div>
+      <div style="text-align:right;"><div class="pv-lbl">외부 PV</div><div class="pv-v">283</div><div class="pv-p">9.7%</div></div>
+    </div>
+  </div>
+
+  <div class="sec-hdr"><div class="sec-dot"></div><div class="sec-lbl">고객 현황</div></div>
+
+  <!-- 신규/기존 고객 KPI -->
+  <div class="cust-grid">
+    <div class="kpi-card">
+      <div class="kpi-lbl">신규고객 거래수</div>
+      <div class="kpi-val">70명</div>
+      <div class="cmp-row" style="margin-top:10px;">
+        <div class="cb up"><span class="l">DoD</span>↑1066.7%</div><div class="cb dn"><span class="l">QoQ</span>↓37.5%</div><div class="cb dn"><span class="l">YoY</span>↓11.4%</div>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">기존고객 거래수</div>
+      <div class="kpi-val">26명</div>
+      <div class="cmp-row" style="margin-top:10px;">
+        <div class="cb nt"><span class="l">DoD</span>N/A</div><div class="cb dn"><span class="l">QoQ</span>↓50.0%</div><div class="cb up"><span class="l">YoY</span>↑52.9%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 신규/기존 비중 바 -->
+  <div class="card" style="margin-bottom:14px;">
+    <div class="chart-hdr" style="margin-bottom:0;">거래 고객 구성 분석 — 전체 96명</div>
+    <div class="pv-bar-bg"><div class="pv-bar-fill" style="width:72.9%;background:linear-gradient(90deg,var(--primary),var(--plt));"></div></div>
+    <div class="pv-row">
+      <div><div class="pv-lbl">신규 고객</div><div class="pv-v">70명</div><div class="pv-p">72.9%</div></div>
+      <div style="text-align:right;"><div class="pv-lbl">기존 고객</div><div class="pv-v">26명</div><div class="pv-p">27.1%</div></div>
+    </div>
+  </div>
+
+  <!-- 셀러샵 현황 -->
+  <div class="shop-card">
+    <div class="shop-item">
+      <div class="shop-lbl">누적 샵 팔로워</div>
+      <div class="shop-val">78,550</div>
+      <div class="shop-sub">전일 대비 +-37</div>
+    </div>
+    <div class="shop-divider"></div>
+    <div class="shop-item">
+      <div class="shop-lbl">샵 팔로우 증감</div>
+      <div class="shop-val" style="color:var(--primary);">▼37</div>
+      <div class="shop-sub">DoD +38</div>
+    </div>
+    <div class="shop-divider"></div>
+    <div class="shop-item">
+      <div class="shop-lbl">셀러샵 PV</div>
+      <div class="shop-val">465</div>
+      <div class="shop-sub">DoD +90.6%</div>
+    </div>
+
+  </div>
+
+  <div class="sec-hdr"><div class="sec-dot"></div><div class="sec-lbl">핵심 인사이트</div></div>
+
+  <div class="insight-stack">
+    <div class="insight-card pos">
+      <button class="edit-btn" onclick="toggleEdit(this)">편집</button>
+      <div class="itag pos">현황</div>
+      <div class="i-bullets">
+        <div class="i-bullet"><div class="i-line"><div class="i-bullet-main" contenteditable="false">당일 매출 ¥246,019</div><button class="del-btn" onclick="delMain(this)">×</button></div><div class="i-bullet-subs"><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false"><span class="_animating_6ta1u_10" data-newtext-seq="2">전일(¥16,580) </span><span class="_animating_6ta1u_10" data-newtext-seq="67">대비 DoD </span><span class="_animating_6ta1u_10" data-newtext-seq="74">▲1383.8%로 메가포 시작과 </span><span class="_animating_6ta1u_10" data-newtext-seq="92">함께 즉각적인 매출 </span><span class="_animating_6ta1u_10" data-newtext-seq="103">확인</span></div><button class="del-btn" onclick="delSub(this)">×</button></div></div><button class="add-btn add-desc-btn" onclick="addDesc(this)"><span class="plus">+</span> 설명 추가</button></div>
+<div class="i-bullet"><div class="i-line"><div class="i-bullet-main" contenteditable="false">팁토우 위시 터치 아이 팔레트 36.0%(33개, ¥88,450)로 당일 매출 견인</div><button class="del-btn" onclick="delMain(this)">×</button></div><div class="i-bullet-subs"><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">팁토우 위시 터치 아이 팔레트 신제품 효과로 구매 결정 속도 가속화</div><button class="del-btn" onclick="delSub(this)">×</button></div><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">단, QoQ ▼45.4%로 이전 메가포 동일 시점(Day 1) 대비 매출 열위</div><button class="del-btn" onclick="delSub(this)">×</button></div></div><button class="add-btn add-desc-btn" onclick="addDesc(this)"><span class="plus">+</span> 설명 추가</button></div>
+        <div class="i-bullet"><div class="i-line"><div class="i-bullet-main" contenteditable="false">PV 2,910·UV 2,040 - DoD 급증, QoQ ▼29.9%·▼27.3% 열위</div><button class="del-btn" onclick="delMain(this)">×</button></div><div class="i-bullet-subs"><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">PV 2,910(DoD ▲63.1% / QoQ ▼29.9% / YoY ▲3.4%)</div><button class="del-btn" onclick="delSub(this)">×</button></div><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">UV 2,040(DoD ▲64.9% / QoQ ▼27.3% / YoY ▲4.0%)</div><button class="del-btn" onclick="delSub(this)">×</button></div><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">메가포 시작에 따른 DoD 급증은 확인됐으나 QoQ 기준 이전 메가포 Day 1 대비 30% 수준 트래픽 열위</div><button class="del-btn" onclick="delSub(this)">×</button></div><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">내부 PV 2,627(90.3%) / 외부 PV 283(9.7%)로 외부 유입 비중이 9.7%로 낮은 수준</div><button class="del-btn" onclick="delSub(this)">×</button></div><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">2Q 메가와리 초기에는 외부 유입이 더 높았던 점을 감안하면, M 메가포의 경우 상대적으로 유입이 부족한 상태</div><button class="del-btn" onclick="delSub(this)">×</button></div></div><button class="add-btn add-desc-btn" onclick="addDesc(this)"><span class="plus">+</span> 설명 추가</button></div><div class="i-bullet"><div class="i-line"><div class="i-bullet-main" contenteditable="false">구매 CVR 4.7%(QoQ ▼1.1%p)</div><button class="del-btn" onclick="delMain(this)">×</button></div><div class="i-bullet-subs"><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">메가포 시작과 함께 CVR이 즉각 반등</div><button class="del-btn" onclick="delSub(this)">×</button></div><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">구매 CVR 4.7%는 이벤트 첫날 기준 양호한 수준이나 QoQ 소폭 열위</div><button class="del-btn" onclick="delSub(this)">×</button></div><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">카트 CVR 14.9%로 탐색 수요는 충분</div><button class="del-btn" onclick="delSub(this)">×</button></div></div><button class="add-btn add-desc-btn" onclick="addDesc(this)"><span class="plus">+</span> 설명 추가</button></div><div class="i-bullet"><div class="i-line"><div class="i-bullet-main" contenteditable="false">고객 구성 — 신규 70명(72.9%), 기존 26명(27.1%)</div><button class="del-btn" onclick="delMain(this)">×</button></div><div class="i-bullet-subs"><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">메가포 첫날 재구매 고객 대거 복귀</div><button class="del-btn" onclick="delSub(this)">×</button></div><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">&nbsp;QoQ ▲50.0%·YoY ▲52.9%로 이전 메가포 대비 재구매 고객 비중이 확대됨</div><button class="del-btn" onclick="delSub(this)">×</button></div></div><button class="add-btn add-desc-btn" onclick="addDesc(this)"><span class="plus">+</span> 설명 추가</button></div><div class="i-bullet"><div class="i-line"><div class="i-bullet-main" contenteditable="false">메인 기여 상품 - 위시 터치 아이 팔레트 압도적 1위</div><button class="del-btn" onclick="delMain(this)">×</button></div><div class="i-bullet-subs"><div class="i-line sub"><div class="i-bullet-sub" contenteditable="false">데일리딜 광고 구좌로 인한 매출 확대</div><button class="del-btn" onclick="delSub(this)">×</button></div></div><button class="add-btn add-desc-btn" onclick="addDesc(this)"><span class="plus">+</span> 설명 추가</button></div><button class="add-btn add-main-btn" onclick="addMain(this)"><span class="plus">+</span> 항목 추가</button>
+      </div>
+      <button class="del-card-btn" onclick="delCard(this)">탭 삭제</button>
+    </div>
+    
+    
+  </div>
+
+  <div class="footer">Generated by Claude · tiptoe Daily Report · 2026.07.01</div>
+
+</div>
+
+<script>
+(function(){
+  function hexRgb(h,a){var r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return'rgba('+r+','+g+','+b+','+a+')';}
+  function fmtY(v){return v>=1000000?(v/1000000).toFixed(1)+'M':v>=1000?(v/1000).toFixed(0)+'K':v;}
+
+  // 매출 바 차트
+  var sLabels=['6/25', '6/26', '6/27', '6/28', '6/29', '6/30', '7/1'];
+  var sVals=[99720, 82340, 104300, 33000, 20850, 16580, 246019];
+  var sColors=['#CBD1DC', '#CBD1DC', 'rgba(0,120,255,0.38)', '#CBD1DC', '#CBD1DC', '#CBD1DC', '#0078FF'];
+  var maxV=Math.max.apply(null,sVals)||1;var p=Math.pow(10,Math.floor(Math.log10(maxV)));var niceMax=Math.ceil(maxV/p)*p;
+  var hovIdx=-1,sc,ctx,scW,scH,pad={top:16,right:20,bottom:32,left:52},cW,cH;
+  function rrect(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.quadraticCurveTo(x+w,y,x+w,y+r);c.lineTo(x+w,y+h-r);c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);c.lineTo(x+r,y+h);c.quadraticCurveTo(x,y+h,x,y+h-r);c.lineTo(x,y+r);c.quadraticCurveTo(x,y,x+r,y);c.closePath();}
+  function setupSales(){
+    sc=document.getElementById('salesChart');if(!sc)return false;
+    var dpr=window.devicePixelRatio||1;
+    scW=Math.min(sc.parentElement.clientWidth||600,window.innerWidth-28);
+    scH=sc.parentElement.clientHeight||220;
+    sc.width=scW*dpr;sc.height=scH*dpr;sc.style.width=scW+'px';sc.style.height=scH+'px';
+    ctx=sc.getContext('2d');ctx.scale(dpr,dpr);
+    cW=scW-pad.left-pad.right;cH=scH-pad.top-pad.bottom;return true;
+  }
+  function drawSales(hov){
+    if(!ctx)return;
+    ctx.clearRect(0,0,scW,scH);
+    var gN=4;ctx.font='10px -apple-system,sans-serif';ctx.fillStyle='#9AA3B0';ctx.textAlign='right';
+    for(var g=0;g<=gN;g++){var v=niceMax*g/gN,y=pad.top+cH-(v/niceMax)*cH;ctx.beginPath();ctx.strokeStyle='#F0F4F9';ctx.lineWidth=1;ctx.moveTo(pad.left,y);ctx.lineTo(pad.left+cW,y);ctx.stroke();ctx.fillText(fmtY(v),pad.left-6,y+3.5);}
+    var bW=Math.min(cW/sLabels.length*0.55,48),gap=cW/sLabels.length;
+    for(var i=0;i<sVals.length;i++){
+      var bx=pad.left+gap*i+(gap-bW)/2,bh=(sVals[i]/niceMax)*cH,by=pad.top+cH-bh,r2=Math.min(6,bh/2);
+      ctx.beginPath();ctx.moveTo(bx+r2,by);ctx.lineTo(bx+bW-r2,by);ctx.quadraticCurveTo(bx+bW,by,bx+bW,by+r2);ctx.lineTo(bx+bW,by+bh);ctx.lineTo(bx,by+bh);ctx.lineTo(bx,by+r2);ctx.quadraticCurveTo(bx,by,bx+r2,by);ctx.closePath();
+      ctx.fillStyle=(hov===i)?sColors[i].replace('0.38','0.6').replace('#0078FF','#005FCC'):sColors[i];ctx.fill();
+      ctx.fillStyle='#9AA3B0';ctx.textAlign='center';ctx.font='11px -apple-system,sans-serif';ctx.fillText(sLabels[i],bx+bW/2,scH-8);
+    }
+    if(hov>=0){
+      var tx=pad.left+gap*hov+gap/2,bh2=(sVals[hov]/niceMax)*cH,ty=pad.top+cH-bh2-14;
+      var txt='¥'+sVals[hov].toLocaleString();ctx.font='bold 12px -apple-system,sans-serif';
+      var tw=ctx.measureText(txt).width+20,th=26,ttx=Math.min(Math.max(tx-tw/2,4),scW-tw-4),tty=Math.max(ty-th,4);
+      ctx.fillStyle='#262F3C';rrect(ctx,ttx,tty,tw,th,6);ctx.fill();ctx.fillStyle='#fff';ctx.textAlign='center';ctx.fillText(txt,ttx+tw/2,tty+th/2+4.5);
+    }
+  }
+  window.addEventListener('load',function(){
+    if(setupSales()){
+      drawSales(-1);
+      sc.addEventListener('mousemove',function(e){var rect=sc.getBoundingClientRect(),mx=e.clientX-rect.left,gap2=cW/sLabels.length,idx=-1;for(var i=0;i<sVals.length;i++){var bx=pad.left+gap2*i+(gap2-Math.min(cW/sLabels.length*0.55,48))/2;if(mx>=bx&&mx<=bx+Math.min(cW/sLabels.length*0.55,48)){idx=i;break;}}if(idx!==hovIdx){hovIdx=idx;drawSales(hovIdx);}});
+      sc.addEventListener('mouseleave',function(){hovIdx=-1;drawSales(-1);});
+    }
+  });
+  window.addEventListener('resize',function(){if(setupSales())drawSales(hovIdx);});
+})();
+
+function toggleEdit(btn){
+  var card=btn.closest('.insight-card'),isE=btn.classList.contains('active');
+  if(isE){card.querySelectorAll('.i-bullet-main,.i-bullet-sub').forEach(function(el){el.setAttribute('contenteditable','false');});btn.textContent='편집';btn.classList.remove('active');card.classList.remove('editing');}
+  else{card.querySelectorAll('.i-bullet-main,.i-bullet-sub').forEach(function(el){el.setAttribute('contenteditable','true');});btn.textContent='완료';btn.classList.add('active');card.classList.add('editing');var f=card.querySelector('.i-bullet-main[contenteditable="true"]');if(f)f.focus();}
+}
+function delMain(btn){btn.closest('.i-bullet').remove();}
+function delSub(btn){btn.closest('.i-line.sub').remove();}
+function delCard(btn){btn.closest('.insight-card').remove();}
+function addMain(addBtn){
+  var w=addBtn.closest('.i-bullets'),nb=document.createElement('div');nb.className='i-bullet';
+  nb.innerHTML='<div class="i-line"><div class="i-bullet-main" contenteditable="true"></div><button class="del-btn" onclick="delMain(this)">×</button></div><div class="i-bullet-subs"></div><button class="add-btn add-desc-btn" onclick="addDesc(this)"><span class="plus">+</span> 설명 추가</button>';
+  w.insertBefore(nb,addBtn);var t=nb.querySelector('.i-bullet-main');t.focus();
+  t.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addMain(addBtn);}});
+}
+function addDesc(addBtn){
+  var b=addBtn.closest('.i-bullet'),sw=b.querySelector('.i-bullet-subs'),nl=document.createElement('div');nl.className='i-line sub';
+  nl.innerHTML='<div class="i-bullet-sub" contenteditable="true"></div><button class="del-btn" onclick="delSub(this)">×</button>';
+  sw.appendChild(nl);var t=nl.querySelector('.i-bullet-sub');t.focus();
+  t.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addDesc(addBtn);}});
+}
+</script>
+
+</body></html>
